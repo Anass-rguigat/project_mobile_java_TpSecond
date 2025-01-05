@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">SecondTp</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="titlefirstActivity">Employe Info</string>
+    <string name="exit1">Exit</string>
+    <string name="add">Add</string>
+    <string name="titleAddEmploye">Add Employe</string>
+    <string name="titlegetEmploye">Get Employe</string>
+    <string name="back1" >Back</string>
+    <string name="getEmploye" >Search</string>
+    <string name="nom" >Nom</string>
+    <string name="prenom" >Prenom</string>
+    <string name="placeholderNom" >Entrer Nom</string>
+    <string name="placeholderPrenom" >Entrer Prenom</string>
+    <string name="telephone" >Telephone</string>
+    <string name="placeholderTelephone" >Entrer Telephone</string>
+    <string name="email" >Email</string>
+    <string name="placeholderEmail" >Entrer Email</string>
+    <string name="searchHint" >Search by id</string>
+    <string name="delete" >Delete</string>
+    <string name="edit" >Update</string>
+</resources>

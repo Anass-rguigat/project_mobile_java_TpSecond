@@ -1,0 +1,8 @@
+<resources>
+    <color name="backgroundColor">#121212</color>
+    <color name="primaryTextColor">#FFA726</color>
+    <color name="buttonTextColor">#FFFFFF</color>
+    <color name="BackgroundButtonColor">#FF7043</color>
+    <color name="buttonBackground">#FF8C00</color>
+    <color name="spinnerBackground">#FF5722</color>
+</resources>
