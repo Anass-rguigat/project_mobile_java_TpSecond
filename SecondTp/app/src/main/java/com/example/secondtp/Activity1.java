@@ -54,19 +54,23 @@ public class Activity1 extends AppCompatActivity {
                 if (nomInput.isEmpty() || prenomInput.isEmpty() || telephoneInput.isEmpty() || emailInput.isEmpty()) {
                     Toast.makeText(Activity1.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    MyDatabaseHelper db = new MyDatabaseHelper(Activity1.this);
-                    boolean isSuccess = db.addEmploye(nomInput, prenomInput, telephoneInput, emailInput);
+                    // Create an Employe object and set its properties
+                    Employe employe = new Employe();
+                    employe.setNomEmploye(nomInput);
+                    employe.setPrenomEmploye(prenomInput);
+                    employe.setTelephoneEmploye(telephoneInput);
+                    employe.setEmailEmploye(emailInput);
 
-                    if (isSuccess) {
-                        Toast.makeText(Activity1.this, "Added successfully", Toast.LENGTH_SHORT).show();
-                        // Reset input fields after successful insertion
-                        nom.setText("");
-                        prenom.setText("");
-                        telephone.setText("");
-                        email.setText("");
-                    } else {
-                        Toast.makeText(Activity1.this, "Failed to add employee", Toast.LENGTH_SHORT).show();
-                    }
+                    MyDatabaseHelper db = new MyDatabaseHelper(Activity1.this);
+                    db.addEmploye(employe); // Now using the Employe object
+
+                    Toast.makeText(Activity1.this, "Added successfully", Toast.LENGTH_SHORT).show();
+
+                    // Reset input fields after successful insertion
+                    nom.setText("");
+                    prenom.setText("");
+                    telephone.setText("");
+                    email.setText("");
                 }
             }
         });

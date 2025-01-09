@@ -24,4 +24,5 @@
     <string name="searchHint" >Search by id</string>
     <string name="delete" >Delete</string>
     <string name="edit" >Update</string>
+    <string name="search" >Search</string>
 </resources>

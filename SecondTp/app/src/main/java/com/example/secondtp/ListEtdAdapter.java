@@ -7,29 +7,25 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class ListEtdAdapter extends BaseAdapter {
-    // Change to List<HashMap<String, String>> to match the data you're passing
-    List<HashMap<String, String>> eltsEtdListe;
-    Context context;
-    LayoutInflater layoutInf;
+    private List<Employe> employeList;
+    private Context context;
 
-    public ListEtdAdapter(List<HashMap<String, String>> eltsEtdListe, Context context) {
-        this.eltsEtdListe = eltsEtdListe;
+    public ListEtdAdapter(List<Employe> employeList, Context context) {
+        this.employeList = employeList;
         this.context = context;
-        this.layoutInf = LayoutInflater.from(context);
     }
 
     @Override
     public int getCount() {
-        return this.eltsEtdListe.size();
+        return employeList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return this.eltsEtdListe.get(position);
+        return employeList.get(position);
     }
 
     @Override
@@ -37,27 +33,19 @@ public class ListEtdAdapter extends BaseAdapter {
         return position;
     }
 
-    public class ViewHolder {
-        TextView tn, tp, tt;
-    }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
         if (convertView == null) {
-            convertView = layoutInf.inflate(R.layout.structetdelt, null);
-            holder = new ViewHolder();
-            holder.tn = convertView.findViewById(R.id.txtN);
-            holder.tp = convertView.findViewById(R.id.txtP);
-            holder.tt = convertView.findViewById(R.id.txtT);
-            convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+            convertView = LayoutInflater.from(context).inflate(R.layout.structetdelt, parent, false);
         }
+        TextView name = convertView.findViewById(R.id.txtN);
+        TextView prenom = convertView.findViewById(R.id.txtP);
+        TextView telephone = convertView.findViewById(R.id.txtT);
 
-        holder.tn.setText(eltsEtdListe.get(position).get("nom"));
-        holder.tp.setText(eltsEtdListe.get(position).get("prenom"));
-        holder.tt.setText(eltsEtdListe.get(position).get("telephone"));
+        Employe employe = employeList.get(position);
+        name.setText(employe.getNomEmploye());
+        prenom.setText(employe.getPrenomEmploye());
+        telephone.setText(employe.getTelephoneEmploye());
 
         return convertView;
     }

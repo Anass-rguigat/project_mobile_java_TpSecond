@@ -5,92 +5,109 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "Employe.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final String DB_NAME = "DBEMPLOYES";
+    private static final int DB_VERSION = 1;
 
-    private static final String TABLE_NAME = "my_employe";
-    private static final String COLUMN_ID = "_id";
-    private static final String COLUMN_NOM = "nom";
-    private static final String COLUMN_PRENOM = "prenom";
-    private static final String COLUMN_TELEPHONE = "telephone";
-    private static final String COLUMN_EMAIL = "email";
+    private static final String ID_EMPLOYE = "idEmploye";
+    private static final String NOM_EMPLOYE = "nomEmploye";
+    private static final String PRENOM_EMPLOYE = "prenomEmploye";
+    private static final String TELEPHONE_EMPLOYE = "telephoneEmploye";
+    private static final String EMAIL_EMPLOYE = "emailEmploye";
+
+    private static final String TABLE_EMPLOYES = "EMPLOYES";
 
     public MyDatabaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE " + TABLE_NAME + " (" +
-                COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_NOM + " TEXT, " +
-                COLUMN_PRENOM + " TEXT, " +
-                COLUMN_TELEPHONE + " TEXT, " +
-                COLUMN_EMAIL + " TEXT);";
-        Log.d("DATABASECREATE", "Creating table with query: " + query);
-        db.execSQL(query);
-        Log.d("DATABASECREATE", "Table created successfully.");
+        db.execSQL("CREATE TABLE " + TABLE_EMPLOYES + " (" +
+                ID_EMPLOYE + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                NOM_EMPLOYE + " TEXT, " +
+                PRENOM_EMPLOYE + " TEXT, " +
+                TELEPHONE_EMPLOYE + " TEXT, " +
+                EMAIL_EMPLOYE + " TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EMPLOYES);
         onCreate(db);
     }
 
-    public boolean addEmploye(String nom, String prenom, String telephone, String email) {
+    public void addEmploye(Employe employe) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(COLUMN_NOM, nom);
-        cv.put(COLUMN_PRENOM, prenom);
-        cv.put(COLUMN_TELEPHONE, telephone);
-        cv.put(COLUMN_EMAIL, email);
-
-        try {
-            long result = db.insert(TABLE_NAME, null, cv);
-            db.close();
-            if (result == -1) {
-                Log.e("DatabaseInsert", "Failed to insert data into database.");
-                return false;
-            } else {
-                Log.i("DatabaseInsert", "Successfully inserted data into database.");
-                return true;
-            }
-        } catch (Exception e) {
-            Log.e("DatabaseInsert", "Error during insert operation: " + e.getMessage());
-            return false;
-        }
+        ContentValues values = new ContentValues();
+        values.put(NOM_EMPLOYE, employe.getNomEmploye());
+        values.put(PRENOM_EMPLOYE, employe.getPrenomEmploye());
+        values.put(TELEPHONE_EMPLOYE, employe.getTelephoneEmploye());
+        values.put(EMAIL_EMPLOYE, employe.getEmailEmploye());
+        db.insert(TABLE_EMPLOYES, null, values);
+        db.close();
     }
 
-    public List<HashMap<String, String>> getAllEmployes() {
-        List<HashMap<String, String>> employesList = new ArrayList<>();
+    public Employe getEmployeByID(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-
-        String query = "SELECT * FROM " + TABLE_NAME;
-        Cursor cursor = db.rawQuery(query, null);
-
+        Cursor cursor = db.query(TABLE_EMPLOYES,
+                new String[]{ID_EMPLOYE, NOM_EMPLOYE, PRENOM_EMPLOYE, TELEPHONE_EMPLOYE, EMAIL_EMPLOYE},
+                ID_EMPLOYE + "=?",
+                new String[]{String.valueOf(id)},
+                null, null, null);
         if (cursor != null && cursor.moveToFirst()) {
+            Employe employe = new Employe();
+            employe.setIdEmploye(cursor.getInt(0));
+            employe.setNomEmploye(cursor.getString(1));
+            employe.setPrenomEmploye(cursor.getString(2));
+            employe.setTelephoneEmploye(cursor.getString(3));
+            employe.setEmailEmploye(cursor.getString(4));
+            cursor.close();
+            return employe;
+        }
+        return null;
+    }
+
+    public List<Employe> getAllEmployes() {
+        List<Employe> employes = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_EMPLOYES, null);
+        if (cursor.moveToFirst()) {
             do {
-                HashMap<String, String> employe = new HashMap<>();
-                employe.put("nom", cursor.getString(cursor.getColumnIndex(COLUMN_NOM)));
-                employe.put("prenom", cursor.getString(cursor.getColumnIndex(COLUMN_PRENOM)));
-                employe.put("telephone", cursor.getString(cursor.getColumnIndex(COLUMN_TELEPHONE)));
-                employe.put("email", cursor.getString(cursor.getColumnIndex(COLUMN_EMAIL)));
-                employesList.add(employe);
+                Employe employe = new Employe();
+                employe.setIdEmploye(cursor.getInt(0));
+                employe.setNomEmploye(cursor.getString(1));
+                employe.setPrenomEmploye(cursor.getString(2));
+                employe.setTelephoneEmploye(cursor.getString(3));
+                employe.setEmailEmploye(cursor.getString(4));
+                employes.add(employe);
             } while (cursor.moveToNext());
         }
         cursor.close();
+        return employes;
+    }
+
+    public void deleteEmploye(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_EMPLOYES, ID_EMPLOYE + "=?", new String[]{String.valueOf(id)});
         db.close();
-        return employesList;
+    }
+
+    public void updateEmploye(Employe employe) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(NOM_EMPLOYE, employe.getNomEmploye());
+        values.put(PRENOM_EMPLOYE, employe.getPrenomEmploye());
+        values.put(TELEPHONE_EMPLOYE, employe.getTelephoneEmploye());
+        values.put(EMAIL_EMPLOYE, employe.getEmailEmploye());
+        db.update(TABLE_EMPLOYES, values, ID_EMPLOYE + "=?", new String[]{String.valueOf(employe.getIdEmploye())});
+        db.close();
     }
 }
