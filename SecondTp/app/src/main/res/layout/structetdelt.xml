@@ -1,34 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:padding="10dp"
+android:layout_marginBottom="8dp"
+android:gravity="center_vertical">
+
+<!-- ImageView for displaying an image -->
+<ImageView
+    android:id="@+id/imgEmployee"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_marginEnd="10dp"
+    android:contentDescription="@string/image" />
+
+<TextView
+    android:id="@+id/txtN"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="10dp"
-    android:layout_marginBottom="8dp">
+    android:layout_weight="1"
+    android:text="Name"
+    android:textSize="16sp"/>
 
-    <!-- TextView for the student's name -->
-    <TextView
-        android:id="@+id/txtN"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Name"
-        android:textSize="16sp"/>
+<!-- TextView for the student's surname -->
+<TextView
+    android:id="@+id/txtP"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:text="Surname"
+    android:textSize="16sp"/>
 
-    <!-- TextView for the student's surname -->
-    <TextView
-        android:id="@+id/txtP"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Surname"
-        android:textSize="16sp"/>
-
-    <!-- TextView for the student's phone number -->
-    <TextView
-        android:id="@+id/txtT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone"
-        android:textSize="16sp"/>
+<!-- TextView for the student's phone number -->
+<TextView
+    android:id="@+id/txtT"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Phone"
+    android:textSize="16sp"/>
 </LinearLayout>
+

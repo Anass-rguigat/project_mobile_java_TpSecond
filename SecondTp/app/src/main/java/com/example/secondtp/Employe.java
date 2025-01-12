@@ -6,6 +6,9 @@ public class Employe {
     private String prenomEmploye;
     private String telephoneEmploye;
     private String emailEmploye;
+    private int imageResource;
+
+
 
     public int getIdEmploye() {
         return idEmploye;
@@ -45,5 +48,13 @@ public class Employe {
 
     public void setEmailEmploye(String emailEmploye) {
         this.emailEmploye = emailEmploye;
+    }
+
+    public int getImageResource() {
+        return imageResource;
+    }
+
+    public void setImageResource(int imageResource) {
+        this.imageResource = imageResource;
     }
 }

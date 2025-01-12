@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -38,14 +39,27 @@ public class ListEtdAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.structetdelt, parent, false);
         }
+
+        // Initialize views
         TextView name = convertView.findViewById(R.id.txtN);
         TextView prenom = convertView.findViewById(R.id.txtP);
         TextView telephone = convertView.findViewById(R.id.txtT);
+        ImageView imageView = convertView.findViewById(R.id.imgEmployee); // ImageView for employee picture
 
+        // Get the current employee object
         Employe employe = employeList.get(position);
+
+        // Set the employee details
         name.setText(employe.getNomEmploye());
         prenom.setText(employe.getPrenomEmploye());
         telephone.setText(employe.getTelephoneEmploye());
+
+        // Set image if available (assuming you have a method to get the image resource ID)
+        if (employe.getImageResource() != 0) {  // Check if an image resource exists for this employee
+            imageView.setImageResource(employe.getImageResource());
+        } else {
+            imageView.setImageResource(R.drawable.pic);  // Default image if no resource available
+        }
 
         return convertView;
     }
